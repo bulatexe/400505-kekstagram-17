@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Булат Миннибаев](https://up.htmlacademy.ru/javascript/17/user/400505).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Чудновский](https://htmlacademy.ru/profile/id29109).
 
 ---
 
