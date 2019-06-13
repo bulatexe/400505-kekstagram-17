@@ -26,9 +26,9 @@ var getComments = function () {
 var generatePhotos = function (count) {
   var photosData = [];
 
-  for (var i = 0; i < count; i++) {
+  for (var i = 1; i <= count; i++) {
     photosData.push({
-      url: 'photos/' + getNumberInRange(1, 25) + '.jpg',
+      url: 'photos/' + i + '.jpg',
       likes: getNumberInRange(15, 200),
       comments: getComments()
     });
