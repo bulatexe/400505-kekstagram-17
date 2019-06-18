@@ -1,6 +1,7 @@
 'use strict';
 var ESC_KEYCODE = 27;
 
+
 var uploadPicture = document.querySelector('#upload-file');
 var imgUpload = document.querySelector('.img-upload__overlay');
 
@@ -14,6 +15,8 @@ var photosEffectsList = imgUpload.querySelectorAll('.effects__item');
 
 var effectLevel = imgUpload.querySelector('.effect-level');
 
+var commentInput = imgUpload.querySelector('.text__description');
+
 var filters = [
   'effects__preview--none',
   'effects__preview--chrome',
@@ -23,22 +26,31 @@ var filters = [
   'effects__preview--heat'
 ];
 
-// Функция закрытия формы
-var closeImgUpload = function () {
-  imgUpload.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscPress);
-  // сбрасываем значение поля выбора файла
-  uploadPicture.value = '';
-  imgUploadPreview.style.transform = '';
-  imagePreview.className = '';
-};
-
 // закрываем по клавише ESC
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     closeImgUpload();
   }
 };
+
+var removeEscEvent = function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+var addEscEvent = function () {
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+// Функция закрытия формы
+var closeImgUpload = function () {
+  imgUpload.classList.add('hidden');
+  removeEscEvent();
+  // сбрасываем значение поля выбора файла
+  uploadPicture.value = '';
+  imgUploadPreview.style.transform = '';
+  imagePreview.className = '';
+};
+
 // Изменение масштаба изображения P.S надо будет улучшить
 var buttonScaleClickHandler = function (evt) {
   if (btnSmaller === evt.target) {
@@ -77,7 +89,7 @@ for (var i = 0; i < photosEffectsList.length; i++) {
 // Показываем форму редактирования
 uploadPicture.addEventListener('change', function () {
   imgUpload.classList.remove('hidden');
-  document.addEventListener('keydown', onPopupEscPress);
+  addEscEvent();
   /* Временно */
   scaleControl.value = '100%';
   effectLevel.style.display = 'none';
@@ -86,4 +98,8 @@ uploadPicture.addEventListener('change', function () {
 // ну и закрываем по клику
 CloseBtnImgUploadHandler.addEventListener('click', closeImgUpload);
 
+// если фокус находится в поле  ввода комментари, удаляем обработчик ESC
+commentInput.addEventListener('focus', removeEscEvent);
 
+// если убираем фокус, добавляем обработчик ESC
+commentInput.addEventListener('blur', addEscEvent);
