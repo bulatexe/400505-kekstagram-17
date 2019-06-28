@@ -13,18 +13,25 @@
     return pictureElement;
   };
 
-  var createPictures = function (arr) {
+  var successHandler = function (pictures) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < arr.length; i++) {
-      fragment.appendChild(renderPicture(arr[i]));
+    for (var i = 0; i < pictures.length; i++) {
+      fragment.appendChild(renderPicture(pictures[i]));
     }
     picturesList.appendChild(fragment);
   };
 
-  var showPictures = function () {
-    var pictures = window.dataPicture;
-    createPictures(pictures);
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; padding: 10px 0; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  showPictures();
+  window.load(successHandler, errorHandler);
 })();
