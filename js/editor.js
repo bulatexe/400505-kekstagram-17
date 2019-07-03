@@ -27,6 +27,12 @@
     'effects__preview--heat'
   ];
 
+  var scaleSettings = {
+    MIN: 25,
+    MAX: 100,
+    STEP: 25
+  };
+
   var filtersRange = {
     'none': {
       MIN: 'none',
@@ -113,17 +119,27 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  var setControlStyle = function (value) {
+    imgUploadPreview.style.transform = 'scale(' + value / 100 + ')';
+  };
+
   var buttonScaleClickHandler = function (evt) {
-    if (btnSmaller === evt.target) {
-      if (parseInt(scaleControl.value, 10) - 25 >= 25) {
-        scaleControl.value = (parseInt(scaleControl.value, 10) - 25) + ' %';
-        imgUploadPreview.style.transform = 'scale(' + parseInt(scaleControl.value, 10) / 100 + ')';
-      }
-    } else if (btnBigger === evt.target) {
-      if (parseInt(scaleControl.value, 10) + 25 <= 100) {
-        scaleControl.value = (parseInt(scaleControl.value, 10) + 25) + ' %';
-        imgUploadPreview.style.transform = 'scale(' + parseInt(scaleControl.value, 10) / 100 + ')';
-      }
+    var scaleControlValue = parseInt(scaleControl.value, 10);
+
+    switch (evt.target) {
+      case btnSmaller:
+        if (scaleControlValue - scaleSettings.STEP >= scaleSettings.MIN) {
+          scaleControl.value = (scaleControlValue -= scaleSettings.STEP) + '%';
+          setControlStyle(scaleControlValue);
+        }
+        break;
+      case btnBigger:
+        if (scaleControlValue + scaleSettings.STEP <= scaleSettings.MAX) {
+          scaleControl.value = (scaleControlValue += scaleSettings.STEP) + '%';
+          setControlStyle(scaleControlValue);
+        }
+        break;
     }
   };
 
