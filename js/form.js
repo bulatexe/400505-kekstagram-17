@@ -7,6 +7,7 @@
   var imgUpload = document.querySelector('.img-upload__overlay');
   var CloseBtnImgUploadHandler = imgUpload.querySelector('.img-upload__cancel');
   var scaleControl = imgUpload.querySelector('.scale__control--value');
+  var imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
   var imagePreview = imgUpload.querySelector('.img-upload__preview img');
   var commentInput = imgUpload.querySelector('.text__description');
   var effectLevel = imgUpload.querySelector('.effect-level');
@@ -27,6 +28,7 @@
     uploadPicture.value = '';
     imagePreview.className = '';
     imagePreview.style = '';
+    imgUploadPreview.style = '';
   };
 
   // Функция закрытия формы
