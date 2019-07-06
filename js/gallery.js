@@ -3,10 +3,11 @@
 (function () {
   var pictures = [];
   var picturesList = document.querySelector('.pictures');
-  var imgFilters = document.querySelectorAll('.img-filters__button');
-  var imgFiltersPopularBtn = document.querySelector('#filter-popular');
-  var imgFiltersNewBtn = document.querySelector('#filter-new');
-  var imgFilterDiscussedBtn = document.querySelector('#filter-discussed');
+  var imgFilters = document.querySelector('.img-filters');
+  var imgFiltersButtons = document.querySelectorAll('.img-filters__button');
+  var imgFiltersPopularButton = document.querySelector('#filter-popular');
+  var imgFiltersNewButton = document.querySelector('#filter-new');
+  var imgFilterDiscussedButton = document.querySelector('#filter-discussed');
 
   var shuffle = function (array) {
     var j;
@@ -21,7 +22,7 @@
     return array;
   };
   var updatePictures = function (filterType) {
-    window.debounce(window.render, filterType);
+    window.debounce(window.pictureRender, filterType);
   };
   var clearPicturesField = function () {
     Array.prototype.forEach.call(picturesList.querySelectorAll('.picture'), function (picture) {
@@ -50,29 +51,31 @@
     updatePictures(renderDiscussedImg);
   };
 
-  imgFiltersPopularBtn.addEventListener('click', filterPopular);
+  imgFiltersPopularButton.addEventListener('click', filterPopular);
 
-  imgFiltersNewBtn.addEventListener('click', filterNew);
+  imgFiltersNewButton.addEventListener('click', filterNew);
 
-  imgFilterDiscussedBtn.addEventListener('click', filterDiscussed);
+  imgFilterDiscussedButton.addEventListener('click', filterDiscussed);
 
   var setActiveFilterHandler = function (filterBtn) {
     filterBtn.addEventListener('click', function (evt) {
       evt.preventDefault();
-      Array.from(imgFilters).forEach(function (filter) {
+      Array.from(imgFiltersButtons).forEach(function (filter) {
         filter.classList.remove('img-filters__button--active');
       });
       filterBtn.classList.add('img-filters__button--active');
     });
   };
 
-  for (var i = 0; i < imgFilters.length; i++) {
-    setActiveFilterHandler(imgFilters[i]);
+  for (var i = 0; i < imgFiltersButtons.length; i++) {
+    setActiveFilterHandler(imgFiltersButtons[i]);
   }
 
   var successHandler = function (data) {
+    imgFilters.classList.remove('img-filters--inactive');
     pictures = data;
     updatePictures(pictures);
+    window.renderBigPicture(pictures[0]);
   };
 
   var errorHandler = function (errorMessage) {

@@ -4,7 +4,6 @@
 
   var picturesList = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content;
-  var imgFilters = document.querySelector('.img-filters');
 
   var renderPicture = function (picture) {
     var pictureElement = pictureTemplate.cloneNode(true);
@@ -15,13 +14,11 @@
 
     return pictureElement;
   };
-
-  window.render = function (data) {
+  window.pictureRender = function (data) {
     var fragment = document.createDocumentFragment();
-    imgFilters.classList.remove('img-filters--inactive');
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(renderPicture(data[i]));
-    }
+    data.forEach(function (item) {
+      fragment.appendChild(renderPicture(item));
+    });
     picturesList.appendChild(fragment);
   };
 })();
