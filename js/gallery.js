@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var MAX_NEW_PHOTOS = 10;
+
   var pictures = [];
   var picturesList = document.querySelector('.pictures');
   var imgFilters = document.querySelector('.img-filters');
@@ -38,7 +40,7 @@
   var filterNew = function () {
     clearPicturesField();
     var picturesCopy = pictures.slice();
-    var renderNewImg = shuffle(picturesCopy).slice(0, 10);
+    var renderNewImg = shuffle(picturesCopy).slice(0, MAX_NEW_PHOTOS);
     updatePictures(renderNewImg);
   };
 
@@ -50,12 +52,6 @@
 
     updatePictures(renderDiscussedImg);
   };
-
-  imgFiltersPopularButton.addEventListener('click', filterPopular);
-
-  imgFiltersNewButton.addEventListener('click', filterNew);
-
-  imgFilterDiscussedButton.addEventListener('click', filterDiscussed);
 
   var setActiveFilterHandler = function (filterBtn) {
     filterBtn.addEventListener('click', function (evt) {
@@ -71,11 +67,43 @@
     setActiveFilterHandler(imgFiltersButtons[i]);
   }
 
+  var openBigPictureHandler = function (data) {
+
+    picturesList.addEventListener('click', function (evt) {
+      var target = evt .target;
+      if (target.closest('.picture__img') && !target.closest('.picture__likes')) {
+        window.renderBigPicture(data[target.dataset.id]);
+      }
+    });
+
+
+    var pictureEnterPressHandler = function (evt) {
+      window.util.isEnterEvent(evt, function () {
+        var target = evt.target.querySelector('.picture__img');
+        if (target) {
+          window.renderBigPicture(data[target.dataset.id]);
+        }
+      });
+    };
+
+    picturesList.addEventListener('keydown', pictureEnterPressHandler);
+  };
+  imgFiltersPopularButton.addEventListener('click', filterPopular);
+
+  imgFiltersNewButton.addEventListener('click', filterNew);
+
+  imgFilterDiscussedButton.addEventListener('click', filterDiscussed);
+
+
   var successHandler = function (data) {
     imgFilters.classList.remove('img-filters--inactive');
-    pictures = data;
+    pictures = data.map(function (picture, index) {
+      picture.id = index;
+
+      return picture;
+    });
     updatePictures(pictures);
-    window.renderBigPicture(pictures[0]);
+    openBigPictureHandler(data);
   };
 
   var errorHandler = function (errorMessage) {
