@@ -9,7 +9,7 @@
     MAX_LENGTH: 20
   };
 
-
+  var form = document.querySelector('.img-upload__form');
   var uploadPicture = document.querySelector('#upload-file');
   var imgUpload = document.querySelector('.img-upload__overlay');
   var CloseBtnImgUploadHandler = imgUpload.querySelector('.img-upload__cancel');
@@ -43,6 +43,8 @@
   var closeImgUpload = function () {
     imgUpload.classList.add('hidden');
     uploadPicture.value = '';
+    hashtagsInput.value = '';
+    commentInput.value = '';
     removeEscEvent();
     resetStyles();
   };
@@ -79,7 +81,7 @@
   var checkUnique = function (hashtags) {
     var valuesSoFar = [];
     for (var i = 0; i < hashtags.length; ++i) {
-      var value = hashtags[i];
+      var value = hashtags[i].toLowerCase();
       if (valuesSoFar.indexOf(value) !== -1) {
         return true;
       }
@@ -96,7 +98,7 @@
     } else if (hashtags.some(checkFirstSymbol)) {
       evt.target.setCustomValidity('Хэш-тег должен начинаться с символа #');
     } else if (hashtags.some(checkMinLength)) {
-      evt.target.setCustomValidity('Хэш-тег должен содержать минимум 2 символа');
+      evt.target.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
     } else if (hashtags.some(checkMaxLength)) {
       evt.target.setCustomValidity('Хэш-тег должен содержать максимум 20 символов');
     } else if (hashtags.some(checkNoSpace)) {
@@ -104,7 +106,7 @@
     } else if (hashtags.length > hashtagsInterval.MAX) {
       evt.target.setCustomValidity('Вы можете добавить максимум 5 хэш-тегов');
     } else if (checkUnique(hashtags)) {
-      evt.target.setCustomValidity('Хэш-теги должны быть уникальными, невзирая на регистр');
+      evt.target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
     } else {
       evt.target.setCustomValidity('');
     }
@@ -121,4 +123,9 @@
   commentInput.addEventListener('blur', addEscEvent);
   hashtagsInput.addEventListener('blur', addEscEvent);
 
+  form.addEventListener('submit', function (evt) {
+    window.upload(new FormData(form), window.showSuccessMessage, window.showErrorMessage);
+    evt.preventDefault();
+    closeImgUpload();
+  });
 })();
