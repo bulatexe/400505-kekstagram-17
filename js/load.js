@@ -5,7 +5,7 @@
   var POSTURL = 'https://js.dump.academy/kekstagram';
   var TIMEOUT = 10000;
 
-  var createXHR = function(onSuccess, onError) {
+  var createXHR = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
