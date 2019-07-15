@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var EFFECTLEVELINITVALUE = 100;
+  var EFFECT_VALUE = 100;
 
   var imgUpload = document.querySelector('.img-upload__overlay');
 
@@ -151,7 +151,7 @@
       if (evt.target.closest('.effects__radio')) {
         imagePreview.dataset.filterName = evt.target.value;
         effectLevelPin.style.left = effectLevelDepth.style.width = effectLevelLine.offsetWidth + 'px';
-        effectLevelValue.value = EFFECTLEVELINITVALUE;
+        effectLevelValue.value = EFFECT_VALUE;
         setEffectLevel();
       }
 

@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var GETURL = 'https://js.dump.academy/kekstagram/data';
-  var POSTURL = 'https://js.dump.academy/kekstagram';
+  var GET_URL = 'https://js.dump.academy/kekstagram/data';
+  var POST_URL = 'https://js.dump.academy/kekstagram';
   var TIMEOUT = 10000;
 
   var createXHR = function (onSuccess, onError) {
@@ -31,13 +31,13 @@
 
   window.load = function (onSuccess, onError) {
     var xhr = createXHR(onSuccess, onError);
-    xhr.open('GET', GETURL);
+    xhr.open('GET', GET_URL);
     xhr.send();
   };
 
   window.upload = function (data, onSuccess, onError) {
     var xhr = createXHR(onSuccess, onError);
-    xhr.open('POST', POSTURL);
+    xhr.open('POST', POST_URL);
     xhr.send(data);
   };
 })();
