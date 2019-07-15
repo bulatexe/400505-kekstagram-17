@@ -11,18 +11,6 @@
   var imgFiltersNewButton = document.querySelector('#filter-new');
   var imgFilterDiscussedButton = document.querySelector('#filter-discussed');
 
-  var shuffle = function (array) {
-    var j;
-    var x;
-    var i;
-    for (i = array.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      x = array[i];
-      array[i] = array[j];
-      array[j] = x;
-    }
-    return array;
-  };
   var updatePictures = function (filterType) {
     window.debounce(window.pictureRender, filterType);
   };
@@ -40,7 +28,9 @@
   var filterNew = function () {
     clearPicturesField();
     var picturesCopy = pictures.slice();
-    var renderNewImg = shuffle(picturesCopy).slice(0, MAX_NEW_PHOTOS);
+    var renderNewImg = picturesCopy.sort(function () {
+      return Math.random() - 0.5;
+    }).slice(0, MAX_NEW_PHOTOS);
     updatePictures(renderNewImg);
   };
 

@@ -1,7 +1,9 @@
 'use strict';
 
 (function () {
-  var SCALECONTORLINITVALUE = 100;
+  var SCALE_VALUE = 100;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
 
   var hashtagsInterval = {
     MAX: 5,
@@ -32,6 +34,30 @@
     document.addEventListener('keydown', onPopupEscPress);
   };
 
+  // загрузка фотографии
+  var uploadUserImage = function () {
+    var file = uploadPicture.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        imagePreview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+      openImgUpload();
+    } else {
+      window.showErrorMessage('Неверный формат файла');
+      closeImgUpload();
+    }
+  };
+
   var resetStyles = function () {
     uploadPicture.value = '';
     imagePreview.className = '';
@@ -49,12 +75,16 @@
     resetStyles();
   };
 
-  // Показываем форму редактирования
-  uploadPicture.addEventListener('change', function () {
+  var openImgUpload = function () {
     imgUpload.classList.remove('hidden');
     addEscEvent();
-    scaleControl.value = SCALECONTORLINITVALUE + '%';
+    scaleControl.value = SCALE_VALUE + '%';
     effectLevel.style.display = 'none';
+  };
+
+  // Показываем форму редактирования
+  uploadPicture.addEventListener('change', function () {
+    uploadUserImage();
   });
 
   // Валидация
