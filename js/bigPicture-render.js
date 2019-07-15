@@ -50,7 +50,6 @@
     previewLikes.textContent = pictures.likes;
     previewDescription.textContent = pictures.description;
     remainingComments = pictures.comments.slice(0);
-
     commentsQuantity.totalCount = remainingComments.length;
     commentsList.innerHTML = '';
 
