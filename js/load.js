@@ -5,6 +5,14 @@
   var POST_URL = 'https://js.dump.academy/kekstagram';
   var TIMEOUT = 10000;
 
+  var errorToMessage = {
+    '301': 'Moved Permanently',
+    '302': 'Moved Temporarily',
+    '404': 'Not Found',
+    '500': 'Internal Server Error',
+    '502': 'Bad Gateway'
+  };
+
   var createXHR = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
 
@@ -14,7 +22,7 @@
       if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError('Статус ответа: ' + xhr.status + ' ' + errorToMessage[xhr.status]);
       }
     });
 

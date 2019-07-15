@@ -5,7 +5,7 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 
-  var hashtagsInterval = {
+  var HASTAGS_INTERVAL = {
     MAX: 5,
     MIN_LENGTH: 2,
     MAX_LENGTH: 20
@@ -93,11 +93,11 @@
   };
 
   var checkMinLength = function (hashtag) {
-    return hashtag.length < hashtagsInterval.MIN_LENGTH;
+    return hashtag.length < HASTAGS_INTERVAL.MIN_LENGTH;
   };
 
   var checkMaxLength = function (hashtag) {
-    return hashtag.length > hashtagsInterval.MAX_LENGTH;
+    return hashtag.length > HASTAGS_INTERVAL.MAX_LENGTH;
   };
 
   var checkNoSpace = function (hashtag) {
@@ -133,7 +133,7 @@
       evt.target.setCustomValidity('Хэш-тег должен содержать максимум 20 символов');
     } else if (hashtags.some(checkNoSpace)) {
       evt.target.setCustomValidity('Хэш-теги должны разделяться пробелами');
-    } else if (hashtags.length > hashtagsInterval.MAX) {
+    } else if (hashtags.length > HASTAGS_INTERVAL.MAX) {
       evt.target.setCustomValidity('Вы можете добавить максимум 5 хэш-тегов');
     } else if (checkUnique(hashtags)) {
       evt.target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
