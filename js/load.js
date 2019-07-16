@@ -37,15 +37,16 @@
     return xhr;
   };
 
-  window.load = function (onSuccess, onError) {
-    var xhr = createXHR(onSuccess, onError);
-    xhr.open('GET', GET_URL);
-    xhr.send();
-  };
-
-  window.upload = function (data, onSuccess, onError) {
-    var xhr = createXHR(onSuccess, onError);
-    xhr.open('POST', POST_URL);
-    xhr.send(data);
+  window.backend = {
+    load: function (onSuccess, onError) {
+      var xhr = createXHR(onSuccess, onError);
+      xhr.open('GET', GET_URL);
+      xhr.send();
+    },
+    upload: function (data, onSuccess, onError) {
+      var xhr = createXHR(onSuccess, onError);
+      xhr.open('POST', POST_URL);
+      xhr.send(data);
+    }
   };
 })();

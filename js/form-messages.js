@@ -56,12 +56,13 @@
   document.addEventListener('keydown', removeSuccessBlockEscHandler);
   document.addEventListener('keydown', removeErrorBlockEscHandler);
 
-  window.showSuccessMessage = function () {
-    successBlock.classList.remove('hidden-block');
-  };
-
-  window.showErrorMessage = function (text) {
-    errorBlock.classList.remove('hidden-block');
-    errorTitle.textContent = text;
+  window.showMessage = {
+    successMessage: function () {
+      successBlock.classList.remove('hidden-block');
+    },
+    errorMessage: function (text) {
+      errorBlock.classList.remove('hidden-block');
+      errorTitle.textContent = text;
+    }
   };
 })();
