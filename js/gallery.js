@@ -91,7 +91,11 @@
   var successHandler = function (data) {
     imgFilters.classList.remove('img-filters--inactive');
     setActiveFilter();
-    pictures = data;
+    pictures = data.map(function (picture, index) {
+      picture.id = index;
+
+      return picture;
+    });
     updatePictures(pictures);
     openBigPictureHandler(data);
   };
