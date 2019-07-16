@@ -12,13 +12,13 @@
     'effects__preview--heat'
   ];
 
-  var SCALE_SETTINGS = {
+  var ScaleSettings = {
     MIN: 25,
     MAX: 100,
     STEP: 25
   };
 
-  var FILTERS_RANGE = {
+  var FiltersRange = {
     'none': {
       MIN: 'none',
       MAX: 'none'
@@ -61,10 +61,10 @@
   var effectLevelDepth = imgUpload.querySelector('.effect-level__depth');
 
   var setEffectLevel = function () {
-    var minFilter = FILTERS_RANGE[imagePreview.dataset.filterName].MIN;
-    var maxFilter = FILTERS_RANGE[imagePreview.dataset.filterName].MAX;
+    var minFilter = FiltersRange[imagePreview.dataset.filterName].MIN;
+    var maxFilter = FiltersRange[imagePreview.dataset.filterName].MAX;
 
-    var value = Math.floor(window.util.map(effectLevelDepth.offsetWidth, 0, effectLevelLine.offsetWidth, minFilter, maxFilter) * 10) / 10;
+    var value = Math.floor(window.util.proportionMap(effectLevelDepth.offsetWidth, 0, effectLevelLine.offsetWidth, minFilter, maxFilter) * 10) / 10;
 
     var nameToFilter = {
       'none': '',
@@ -129,14 +129,14 @@
 
     switch (evt.target) {
       case btnSmaller:
-        if (scaleControlValue - SCALE_SETTINGS.STEP >= SCALE_SETTINGS.MIN) {
-          scaleControl.value = (scaleControlValue -= SCALE_SETTINGS.STEP) + '%';
+        if (scaleControlValue - ScaleSettings.STEP >= ScaleSettings.MIN) {
+          scaleControl.value = (scaleControlValue -= ScaleSettings.STEP) + '%';
           setControlStyle(scaleControlValue);
         }
         break;
       case btnBigger:
-        if (scaleControlValue + SCALE_SETTINGS.STEP <= SCALE_SETTINGS.MAX) {
-          scaleControl.value = (scaleControlValue += SCALE_SETTINGS.STEP) + '%';
+        if (scaleControlValue + ScaleSettings.STEP <= ScaleSettings.MAX) {
+          scaleControl.value = (scaleControlValue += ScaleSettings.STEP) + '%';
           setControlStyle(scaleControlValue);
         }
         break;

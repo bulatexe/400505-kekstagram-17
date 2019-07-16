@@ -5,7 +5,7 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 
-  var HASTAGS_INTERVAL = {
+  var HashtagsInterval = {
     MAX: 5,
     MIN_LENGTH: 2,
     MAX_LENGTH: 20
@@ -14,13 +14,14 @@
   var form = document.querySelector('.img-upload__form');
   var uploadPicture = document.querySelector('#upload-file');
   var imgUpload = document.querySelector('.img-upload__overlay');
-  var CloseBtnImgUploadHandler = imgUpload.querySelector('.img-upload__cancel');
+  var closeBtnImgUploadHandler = imgUpload.querySelector('.img-upload__cancel');
   var scaleControl = imgUpload.querySelector('.scale__control--value');
   var imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
   var imagePreview = imgUpload.querySelector('.img-upload__preview img');
   var commentInput = imgUpload.querySelector('.text__description');
   var effectLevel = imgUpload.querySelector('.effect-level');
   var hashtagsInput = imgUpload.querySelector('.text__hashtags');
+  var formSubmitButton = imgUpload.querySelector('.img-upload__submit');
 
   var onPopupEscPress = function (evt) {
     window.util.isEscEvent(evt, closeImgUpload);
@@ -53,7 +54,7 @@
       reader.readAsDataURL(file);
       openImgUpload();
     } else {
-      window.showErrorMessage('Неверный формат файла');
+      window.showMessage.errorMessage('Неверный формат файла');
       closeImgUpload();
     }
   };
@@ -93,11 +94,11 @@
   };
 
   var checkMinLength = function (hashtag) {
-    return hashtag.length < HASTAGS_INTERVAL.MIN_LENGTH;
+    return hashtag.length < HashtagsInterval.MIN_LENGTH;
   };
 
   var checkMaxLength = function (hashtag) {
-    return hashtag.length > HASTAGS_INTERVAL.MAX_LENGTH;
+    return hashtag.length > HashtagsInterval.MAX_LENGTH;
   };
 
   var checkNoSpace = function (hashtag) {
@@ -120,30 +121,30 @@
     return false;
   };
 
-  hashtagsInput.addEventListener('input', function (evt) {
-    var hashtags = hashtagsInput.value.trim().split([' ']);
+  formSubmitButton.addEventListener('click', function () {
+    var hashtagsArray = hashtagsInput.value.trim().split([' ']);
 
     if (checkEmpty(hashtagsInput)) {
-      evt.target.setCustomValidity('');
-    } else if (hashtags.some(checkFirstSymbol)) {
-      evt.target.setCustomValidity('Хэш-тег должен начинаться с символа #');
-    } else if (hashtags.some(checkMinLength)) {
-      evt.target.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
-    } else if (hashtags.some(checkMaxLength)) {
-      evt.target.setCustomValidity('Хэш-тег должен содержать максимум 20 символов');
-    } else if (hashtags.some(checkNoSpace)) {
-      evt.target.setCustomValidity('Хэш-теги должны разделяться пробелами');
-    } else if (hashtags.length > HASTAGS_INTERVAL.MAX) {
-      evt.target.setCustomValidity('Вы можете добавить максимум 5 хэш-тегов');
-    } else if (checkUnique(hashtags)) {
-      evt.target.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
+      hashtagsInput.setCustomValidity('');
+    } else if (hashtagsArray.some(checkFirstSymbol)) {
+      hashtagsInput.setCustomValidity('Хэш-тег должен начинаться с символа # ');
+    } else if (hashtagsArray.some(checkMinLength)) {
+      hashtagsInput.setCustomValidity('Хеш-тег не может состоять только из одной решётки');
+    } else if (hashtagsArray.some(checkMaxLength)) {
+      hashtagsInput.setCustomValidity('Хэш-тег должен содержать максимум 20 символов');
+    } else if (hashtagsArray.some(checkNoSpace)) {
+      hashtagsInput.setCustomValidity('Хэш-теги должны разделяться пробелами');
+    } else if (hashtagsArray.length > HashtagsInterval.MAX) {
+      hashtagsInput.setCustomValidity('Вы можете добавить максимум 5 хэш-тегов');
+    } else if (checkUnique(hashtagsArray)) {
+      hashtagsInput.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
     } else {
-      evt.target.setCustomValidity('');
+      hashtagsInput.setCustomValidity('');
     }
   });
 
   // ну и закрываем по клику
-  CloseBtnImgUploadHandler.addEventListener('click', closeImgUpload);
+  closeBtnImgUploadHandler.addEventListener('click', closeImgUpload);
 
   // если фокус находится в поле  ввода, удаляем обработчик ESC
   commentInput.addEventListener('focus', removeEscEvent);
@@ -154,7 +155,7 @@
   hashtagsInput.addEventListener('blur', addEscEvent);
 
   form.addEventListener('submit', function (evt) {
-    window.upload(new FormData(form), window.showSuccessMessage, window.showErrorMessage);
+    window.backend.upload(new FormData(form), window.showMessage.successMessage, window.showMessage.errorMessage);
     evt.preventDefault();
     closeImgUpload();
   });

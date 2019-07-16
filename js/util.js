@@ -15,7 +15,7 @@
         action();
       }
     },
-    map: function (x, inMin, inMax, outMin, outMax) {
+    proportionMap: function (x, inMin, inMax, outMin, outMax) {
       return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
     }
   };
